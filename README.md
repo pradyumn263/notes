@@ -6,12 +6,31 @@ Hashing is an improvement over Direct Access Table. The idea is to use hash func
 
 #### Hash Function
 
-A function that converts a given big phone number to a small practical integer value. The mapped integer value is used as an index in hash table. In simple terms, a hash function maps a big number or string to a small integer that can be used as index in hash table.
+A function that converts a given, (for example) big phone number to a small practical integer value. The mapped integer value is used as an index in hash table. In simple terms, a hash function maps a big number or string to a small integer that can be used as index in hash table.
 
 A good hash function should have following properties:
 
 1. Efficiently Computable
 2. Should Uniformly Distribute Keys
+
+#### Direct Access Table
+
+In this, the values to be stored are used as indices directly. This is not useful for very big numbers, because getting that many indices isnt possible.
+
+### Hash Table
+
+When Hash tables are used, a hashingfunction is generated to get the hash values for inputs. And those hashed values are used as indices in a hash table.
+
+Since a hash function generates a small number for a very big number, there might be cases where two keys result in the same hashed value.
+
+The situation where a new key maps to an already occupied slot in hash table is called Collision.
+
+These collisions must be handled. These are the ways to handle collisions:
+
+1. **Chaining**: The idea is to make each cell of the hash table to point at a linked list of record values which have the same hash value. This is simple but it requires extra memory.
+
+2. **Open Adressing**: In open addressing, all the elements are stored in the hash table itself. Each cell contains either a record or NIL.
+   When searching the element, we one by one go through the table slots, until desired element is found, or it is clear that the element does not exist.
 
 ## Concurrency
 
@@ -59,3 +78,26 @@ We are testing a variable, and then setting the value of it. This is known as te
 
 What facility do we want from the OS?
 If a program calls a function "Lock", the OS should check for the shared variable, and block if the shared variable is being used, if not, set it, and come out.
+
+As soon as one entity is done using the shared variable, the OS will unblock the shared variable and hence next/other process can use it.
+
+The Code for it will look something like this:
+
+```
+LOCK(); Line 1 and 2 are executed by one process.
+CS
+UNLOCK();
+```
+
+If one process locks, then another process wont be able to use it. It will be stuck in that lock and then it will keep trying till lock gets free. OS will make sure atomicity is there.
+
+#### How will Lock be implemented?
+
+Do we want the process to loop or sleep?
+We would prefer for it to sleep, because if it is looping, it is waiting CPU Time.
+
+If it is looping, then it is known as Busy Waiting.
+
+_Parallelism vs Concurrency, Check the diference._
+
+#### Condition Variables
