@@ -1,5 +1,54 @@
 # Internship Notes
 
+## Database Management Systems
+
+### Topics to cover
+
+      [1] ER Diagram
+      [2] Conversion of ER into Relational Model
+      [3] Basis of Relational Models and Functional Dependency
+      [4] Idea about Keys/ Types
+      [5] Normalization
+      [6] Lossless decomposition and Dependency Preserving
+      [7] Indexing and Physical Structure (B, B+ Trees)
+      [8] SQL
+      [9] Relational Algrbra and Relational Calculus
+      [10] Transactions
+      [11] Concurrency Control
+
+#### 0. Basics
+
+1. Data: Raw and isolated facts about an entitiy is called data.
+2. Information: Processed, meaningfull and usable data
+3. Database: Collection of similar/related data.
+4. DBMS: Software used to create, manipulate and delete database.
+
+What are the drawbacks of File System?
+
+- Data Redundancy
+- Data Inconsistency (Same data has multiple values)
+- Difficult in accessing data
+- Atomicity Problem
+- Data Isolation (data is separate from the language used in coding the software)
+- Security Problem
+- Concurrency Anomalies
+- Integrity Problem
+
+#### 1. ER Diagram
+
+## Object Oriented Programming
+
+**Object Oriented Programming** is a methodology to design a program using classes and objects. It simplifies development and maintence by providing some concepts, like:
+
+- Object
+- Class
+- Inheritance
+- Polymorphism
+- Abstraction
+- Encapsulation
+
+## Data Structures and Algorithms
+
 ## Hashing
 
 Hashing is an improvement over Direct Access Table. The idea is to use hash function that converts a given phone number or any other key to a smaller number and uses the small number as index in a table called hash table.
