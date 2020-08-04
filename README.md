@@ -156,6 +156,51 @@ Time Complexity: O(V+E)
   return res;
 ```
 
+BFS can be used to generate the shortest path from source to destination of an unweighted graph.
+Here is the psuedocode for it.
+
+```c++
+//We will generate a parent array, and then reconstruct the path from s -> e using that parent array
+int n; //This is the number of nodes present in the graph
+vector<vector<int>> g; //This is the adjacency list representation of a graph
+
+vector<int> parent(n, -1);
+vector<bool> visited(n, false);
+vector<int> res;
+
+//This function will populate the parent array
+void bfs(int s) {
+  queue<int> q;
+  q.push(s);
+
+  while(!q.empty()) {
+    int curr = q.front();
+    q.pop();
+    visited[curr] = true;
+    for(int neighbour : g[curr]) {
+      if(!visited[neighbour]) {
+        q.push(neighbour);
+        parent[neighbour] = curr;
+      }
+    }
+  }
+}
+
+vector<int> reconstructPath(int source, int destination) {
+  while(parent[destination] != -1) {
+    res.push_back(destination);
+    destination = parent[destination];
+  }
+  reverse(res.begin(), res.end());
+  if(res[0] == source)
+    return res;
+  return {};
+}
+//Res now contains the shortest path from s to e
+```
+
+BFS Can also be applied on a matrix
+
 #### 2. DFS
 
 Time Complexity: O(V+E)
