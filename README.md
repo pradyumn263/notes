@@ -92,6 +92,46 @@ These collisions must be handled. These are the ways to handle collisions:
 
 ## Graph Algorithms
 
+**Common Graph Theory Problems**
+
+1. Shortest Path Problem
+
+   - BFS (for Unweighted Graph)
+   - DJ's Shortest
+   - Bellman-Ford
+   - Floyd Warshall
+
+2. Connectivity
+
+   - Union Find
+   - DFS/BFS
+
+3. Negative Cycle
+
+   - Bellman Ford
+   - Floyd Warshall
+
+4. Strongly Connected Components
+
+   - Tarjan's
+   - Kosaraju
+
+5. Travelling Salesman Problem
+
+   - Held-Karp
+   - Branch and Bound
+
+6. Bridges
+7. Articulation Points
+8. Minimum Spanning Tree
+
+   - Primm's Algorithm
+   - Krushkal's Algorithm
+
+9. Max flow
+   - Ford Fulkerson
+   - Dinic
+
 #### 1. BFS
 
 Time Complexity: O(V+E)
@@ -250,6 +290,70 @@ Time Complexity: O(V+E)
 
   return res;
 ```
+
+#### 6. Krushkal's Minimum Spanning Tree
+
+This uses a greedy approach to create a minimum spanning tree.  
+The Steps involved are as follows:
+
+- Choose the minimum edge weight among all the edges that are present.
+- If adding this edge creates a cycle, move on. Other wise add this edge.
+
+To find whether a cycle is created or not, we can use union find to check it.
+We can add edges between 2 trees, but we cannot add an edge within a tree it self.  
+So, if we find an edge between 2 nodes who's parents are the same, it will result in a cycle.  
+If we add an edge between 2 nodes who's parents are different, it will not create a cycle. We then have to merge these 2 trees into 1.
+
+```c++
+//Input graph is processed, to get an array of <edge weight, <src, dest>>
+//This is sorted.
+int nodes; //Number of nodes.
+int edges; //Number of edges.
+
+//We initialize the parent array with all i
+vector<int> parent(nodes);
+for(int i = 0; i < nodes; i++) {
+  parent[i] = i;
+}
+
+int root (int n) {
+  while(parent[n] != n) {
+    n = parent[n];
+  }
+  return n;
+}
+
+void unionify(int a, int b) {
+  int parentA = root(a);
+  int parentB = root(b);
+
+  parent[parenA] = parentB;
+}
+
+int krushkal(vector<pair<int, pair<int,int> > > &edge) {
+  int x, y;
+  long long int cost, minimumCost = 0;
+
+  vector<pair<int, int> > addedEdges;
+  //We need to run this for n-1 additions
+  for(int i = 0; i < edge.size(); i++) {
+    x = edge[i].second.first; //src
+    y = edge[i].second.second; //dest
+
+    cost = edgs[i].first;
+
+    if(root(x) != root(y)) {
+      minimumCost+=cost;
+      addedEdges.push_back({x,y});
+      unionify(x,y);
+    }
+  }
+  return minimumCost;
+}
+
+```
+
+#### 7. Prim's Algorithm for Minimum Spanning Tree
 
 ## Concurrency
 
