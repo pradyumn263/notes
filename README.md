@@ -28,13 +28,22 @@ What are the drawbacks of File System?
 - Data Redundancy
 - Data Inconsistency (Same data has multiple values)
 - Difficult in accessing data
-- Atomicity Problem
+- Atomicity Problem (Either complete it or dont do at all)
 - Data Isolation (data is separate from the language used in coding the software)
 - Security Problem
 - Concurrency Anomalies
 - Integrity Problem
 
 #### 1. ER Diagram
+
+- Entity: An entitiy is an object in the real world and that is distingushable from other objects based on the values of the attributes it possesses.
+
+- Types of Entities
+
+  - Tangible: Entities which physically exist in real world.
+  - Intangible: Entitites which exist logically.
+
+- Entitiy Set: Collectioin of same types of entities is called as an Entitiy Set.
 
 ## Object Oriented Programming
 
@@ -80,6 +89,122 @@ These collisions must be handled. These are the ways to handle collisions:
 
 2. **Open Adressing**: In open addressing, all the elements are stored in the hash table itself. Each cell contains either a record or NIL.
    When searching the element, we one by one go through the table slots, until desired element is found, or it is clear that the element does not exist.
+
+## Graph Algorithms
+
+#### 1. BFS
+
+```c++
+  queue<int> q;
+  int curr = 0;
+
+  q.push(curr);
+  vector<int> res;
+  while(!q.empty()) {
+    int n = q.front();
+    res.push_back(n);
+    q.pop();
+
+    for(int neighbor : g[n]) {
+      q.push(neighbor);
+    }
+  }
+
+  return res;
+```
+
+#### 2. DFS
+
+```c++
+  stack<int> st;
+  int curr = 0;
+
+  st.push(curr);
+  vector<int> res;
+  while(!st.empty()) {
+    int n = st.top();
+    st.pop();
+
+    for(int neighbour : g[i]) {
+      st.push(neighbour);
+    }
+  }
+
+  return res;
+```
+
+#### 3. Detect Cycle in a DAG
+
+```c++
+  unordered_set<int> white;
+  unordered_set<int> gray;
+  unordered_set<int> black;
+
+  //Graph is represented as adjacent list
+  vector<vector<int>> g;
+  //Put All Nodes in white set first
+
+  bool hasCycle (int curr) {
+    //move the curr from white set to gray set
+    white.erase(curr);
+    gray.insert(curr);
+
+    for(int neighbour: g[curr]) {
+      if(gray.find(neighbour) != gray.end())
+        return true;
+
+      if(black.find(neighbour) != black.end())
+        continue;
+
+      if(white.find(neighbour) != white.end()) {
+        if(hasCycle(neighbour))
+          return true;
+      }
+    }
+
+    gray.erase(curr);
+    black.insert(curr);
+    return false;
+  }
+```
+
+#### 4. DJ's Shortest Path
+
+```c++
+  int n; // -> Number of nodes in the graph
+  vector<vector<int>> g; //Graph as a adjacency List
+  vector<int> dis(n, INT_MAX); //Distance array, will contain the shortest distance from source
+                               //to i th node at dis[i];
+  priority_queue<pair<int, int> , vector<pair<int,int>>, greater<pair<int, int>>> pq;
+  //This priority queue will contain a pair of: distance, node
+
+  int source;
+  dis[source] = 0;
+
+  pq.push({0, source});
+
+  while(!pq.empty()) {
+    int u = pq.top().first;
+    int w = pq.top().second;
+    pq.pop();
+
+    if(w > dis[u])
+      continue;
+
+    for(pair<int,int> neighbour: g[u]) {
+      int v = neighbour.first;
+      int c = neighbour.second;
+
+      if(dis[v] > dis[u] + c) {
+        dis[v] = dis[u] + c;
+        pq.push({dis[v], v});
+      }
+
+    }
+  }
+
+  return dis;
+```
 
 ## Concurrency
 
