@@ -199,7 +199,9 @@ vector<int> reconstructPath(int source, int destination) {
 //Res now contains the shortest path from s to e
 ```
 
-BFS Can also be applied on a matrix
+BFS Can also be applied on a matrix, see implementation a little bit, should be easy. Check if questions are there on leetcode.
+
+BFS on a matrix can be done with having a queue for each dimension, as it is easier to work with. We can have parent matrix as before to trace down the shortest path that we have constructed.
 
 #### 2. DFS
 
@@ -274,6 +276,10 @@ Time Complexity: O(2E log(V))
   priority_queue<pair<int, int> , vector<pair<int,int>>, greater<pair<int, int>>> pq;
   //This priority queue will contain a pair of: distance, node
 
+  //This array can be used to build the shortest path
+  vector<int> prev(n, -1);
+
+
   int source;
   dis[source] = 0;
 
@@ -293,6 +299,7 @@ Time Complexity: O(2E log(V))
 
       if(dis[v] > dis[u] + c) {
         dis[v] = dis[u] + c;
+        prev[v] = u;
         pq.push({dis[v], v});
       }
 
@@ -302,9 +309,58 @@ Time Complexity: O(2E log(V))
   return dis;
 ```
 
+#### Bellman-Ford SSSP Algorithm
+
+This is a much slower algorithm than DJ's shortest path, as this is a O(VE) complexity algorithm  
+This is chosen when the graph contains negative cycle, because then DJ's doesnt work.
+
+```c++
+int v; //number of nodes
+int e; //number of edges
+int s; //starting node
+vector<int> dist(v, INT_MAX);
+dist[s] = 0;
+//Input graph is converted to edge list:
+// vector<vector<int>> edge; (src, des, weight)
+vector<vector<int>> edges;
+
+for(int i = 0; i < v-1; i++) {
+  for(int j = 0; j < e; j++ ) {
+    int src = edges[j][0];
+    int des = edges[j][1];
+    int w = edges[j][2];
+
+    if(dist[src] != INT_MAX && dist[src] + w < dist[des]) {
+      dist[des] = dist[src] + w;
+    }
+  }
+}
+
+//Run algorithm 2nd time to change all the negative cycle weights
+for(int i = 0; i < V-1; i++) {
+  for(int j = 0; j < e; j++) {
+    int src = edges[j][0];
+    int des = edges[j][1];
+    int w = edges[j][2];
+
+    if(dist[src] == INT_MIN || dist[src] + w < dist[des]) {
+      dist[des] = INT_MIN;
+    }
+  }
+}
+```
+
+#### Floyd-Warshall Algorithm (All Pair Shortest Path)
+
+This algorithm can find shortest path between all pairs of nodes. This algorithm runs in O(V<sup>3</sup>).
+
+Here, we will use Adjacency Matrix representation of graph, which has g[i][j] as edge weight.
+No edge should be represented with INT_MAX.
+
 #### 5. Topological Sort
 
-Time Complexity: O(V+E)
+Time Complexity: O(V+E)  
+The graph MUST be a DAG for a valid topo sort to exist. We will get size of topo sort output < n if it is not a DAG.
 
 ```c++
   //Graph is assumed to be taken as an adjacency list
@@ -336,7 +392,76 @@ Time Complexity: O(V+E)
   return res;
 ```
 
-#### 6. Krushkal's Minimum Spanning Tree
+We can also use DFS to run topological sort. Before returning from the DFS function, we can push the current node in a stack. Then, we can empty this stack in a array, and that will be our Topo sorted output. This means, decreasing order of departure time (I think).
+
+```c++
+int n; //The number of nodes in the graph
+vector<vector<int>> g; //The graph is assumed to be in adjacency list form
+stack<int> st;
+vector<bool> visited(n, false);
+
+void topoHelper(int curr) {
+  visited[curr] = true;
+
+  for(int neighbour : g[curr]) {
+    if(visited[neighbour]) {
+      topoHelper(neighbour);
+    }
+  }
+  st.push(curr);
+}
+
+vector<int> res;
+
+while(!st.empty()) {
+  res.push_back(st.top());
+  st.pop();
+}
+
+//Res now contains the topological sorted graph.
+```
+
+#### 6. Single Source Shortest Path, for any DAG
+
+We can calculate SSSP for a DAG, whether it contains negative edges or not using this method. We need to have a topological sorting, and then, we will go through the nodes 1 by 1 in order of their topology sort, and update the distance for minimum length of the path for each children.
+
+This is O(V+E)
+
+```c++
+// Graph is adjacency list of pair<int,int>, first is destination of edge, and second is the edge weight.
+vector<int> dagShortestPath(vector<vector<pair<int,int>>> &g, int start, int numNodes) {
+  vector<int> topo;
+  topologicalSort(g, topo);
+
+  vector<int> dist(numNodes, INT_MAX);
+  dist[start] = 0;
+
+  for(int i = 0; i < numNodes; i++) {
+    int nextNode = topo[i];
+
+    if(dist[nextNode] != INT_MAX) {
+      for(pair<int,int> neighbour : g[nextNode]) {
+        int currDist = dist[nextNode] + neighbour.second;
+        int v = neighbour.first;
+
+        if(dist[v] > currDist)
+          dist[v] = currDist;
+
+      }
+    }
+  }
+
+  return dist;
+}
+```
+
+#### 7. Longest Path
+
+This is NP-Hard for general graphs, but for DAGs, this can be done in O(V+E).
+
+For DAG, we can multiply all Edge weights with -1 and then find the shortest path. Multiply this with -1 to get the longest path.
+
+#### 8. Krushkal's Minimum Spanning Tree
 
 This uses a greedy approach to create a minimum spanning tree.  
 The Steps involved are as follows:
@@ -398,7 +523,7 @@ int krushkal(vector<pair<int, pair<int,int> > > &edge) {
 
 ```
 
-#### 7. Prim's Algorithm for Minimum Spanning Tree
+#### 9. Prim's Algorithm for Minimum Spanning Tree
 
 ## Concurrency
 
