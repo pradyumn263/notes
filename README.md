@@ -34,7 +34,7 @@ What are the drawbacks of File System?
 - Concurrency Anomalies
 - Integrity Problem
 
-#### 1. ER Diagram
+#### ER Diagram
 
 - Entity: An entitiy is an object in the real world and that is distingushable from other objects based on the values of the attributes it possesses.
 
@@ -44,6 +44,74 @@ What are the drawbacks of File System?
   - Intangible: Entitites which exist logically.
 
 - Entitiy Set: Collectioin of same types of entities is called as an Entitiy Set.
+  It is represented with a Rectangle.
+
+#### Attributes
+
+They are the units that describe the characteristics of entities.  
+For each attribute, there is a set of permitted value, called domain.  
+Attributes are represented by an Oval.
+
+Types of Attributes:
+
+1. Simple: Cannot be divided further.
+2. Composite: Can be divided further (Name -> first name, last name)
+
+3. Single Valued: Can only have 1 value per instance
+4. Multi Valued: Can have multiple values. For these, separate table is made.
+
+5. Stored: Whose value is stored in the DB.
+6. Derived: Whose value isnt stored, but you can get it from some other stored attribute
+
+#### Relationship
+
+It is an association between two or more entities of same or different type.
+
+- Individual relationship between entities is not represented in an ER Diagram.
+
+**Relationship Type**: A set of similar types of relationship is represented in ER Diagram using a diamond.
+
+    teacher --- <teaches> --- student
+
+Every realtionship has 3 components:
+
+- Cardinality
+- Degree
+- Name
+
+**Degree of a Relationship**  
+It means the number of entitiy sets which participate in the relationship set  
+They can be Binary, Ternary, Quaternary etc.
+
+Unary relationships are also possible, eg: Employee can have relation with other employees, like boss, manager etc.
+
+There is no limit on the degree of a relationship, but higher degrees are not possible, most of them are binary only.
+
+**Cardinality Ratio**  
+Expresses the number of entities to which other entity can be related by a relationship.
+
+These are the following types:
+
+- One to One
+- One to Many
+- Many to One
+- Many to Many
+
+1.  One to One  
+    When every entitiy on one side can relate to **at max** one entity on other side and vice versa.  
+    eg: Aadhar Number and Citizen.  
+    In ER, the edge either has 1 written on it, or it has arrow ->
+
+2.  One to Many  
+    Every entitiy on one side can relate to many entities on other side, but reverse can only have 1 entitiy.
+
+        -> is 1 in ER and no arrow is Many
+
+3.  Many to One  
+    Same as previous one, just reversed.
+
+4.  Many to Many  
+    Every entitiy on one side can be related to many entities on the other side and vice versa. If there are no arrows on the ER Diagram, then it is many to many, or many can have a \* on it.
 
 ## Object Oriented Programming
 
@@ -55,6 +123,11 @@ What are the drawbacks of File System?
 - Polymorphism
 - Abstraction
 - Encapsulation
+
+#### Object
+
+1. Objects have a state and behaviour
+2. It is an instance of a class
 
 ## Data Structures and Algorithms
 
@@ -309,7 +382,7 @@ Time Complexity: O(2E log(V))
   return dis;
 ```
 
-#### Bellman-Ford SSSP Algorithm
+#### 5. Bellman-Ford SSSP Algorithm
 
 This is a much slower algorithm than DJ's shortest path, as this is a O(VE) complexity algorithm  
 This is chosen when the graph contains negative cycle, because then DJ's doesnt work.
@@ -350,14 +423,14 @@ for(int i = 0; i < V-1; i++) {
 }
 ```
 
-#### Floyd-Warshall Algorithm (All Pair Shortest Path)
+#### 6. Floyd-Warshall Algorithm (All Pair Shortest Path)
 
 This algorithm can find shortest path between all pairs of nodes. This algorithm runs in O(V<sup>3</sup>).
 
 Here, we will use Adjacency Matrix representation of graph, which has g[i][j] as edge weight.
 No edge should be represented with INT_MAX.
 
-#### 5. Topological Sort
+#### 7. Topological Sort
 
 Time Complexity: O(V+E)  
 The graph MUST be a DAG for a valid topo sort to exist. We will get size of topo sort output < n if it is not a DAG.
@@ -421,7 +494,7 @@ while(!st.empty()) {
 //Res now contains the topological sorted graph.
 ```
 
-#### 6. Single Source Shortest Path, for any DAG
+#### 8. Single Source Shortest Path, for any DAG
 
 We can calculate SSSP for a DAG, whether it contains negative edges or not using this method. We need to have a topological sorting, and then, we will go through the nodes 1 by 1 in order of their topology sort, and update the distance for minimum length of the path for each children.
 
@@ -455,13 +528,13 @@ vector<int> dagShortestPath(vector<vector<pair<int,int>>> &g, int start, int num
 }
 ```
 
-#### 7. Longest Path
+#### 9. Longest Path
 
 This is NP-Hard for general graphs, but for DAGs, this can be done in O(V+E).
 
 For DAG, we can multiply all Edge weights with -1 and then find the shortest path. Multiply this with -1 to get the longest path.
 
-#### 8. Krushkal's Minimum Spanning Tree
+#### 10. Krushkal's Minimum Spanning Tree
 
 This uses a greedy approach to create a minimum spanning tree.  
 The Steps involved are as follows:
@@ -523,7 +596,12 @@ int krushkal(vector<pair<int, pair<int,int> > > &edge) {
 
 ```
 
-#### 9. Prim's Algorithm for Minimum Spanning Tree
+#### 11. Articulation Points and Bridges
+
+**Bridge**  
+Any edge, which when removed, increases the number of connected components in the graph  
+**Articulation Points**  
+Any vertex, which when removed, increases the number of connected components in the graph
 
 ## Concurrency
 
