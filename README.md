@@ -94,12 +94,15 @@ These collisions must be handled. These are the ways to handle collisions:
 
 #### 1. BFS
 
+Time Complexity: O(V+E)
+
 ```c++
   queue<int> q;
   int curr = 0;
 
   q.push(curr);
   vector<int> res;
+
   while(!q.empty()) {
     int n = q.front();
     res.push_back(n);
@@ -114,6 +117,8 @@ These collisions must be handled. These are the ways to handle collisions:
 ```
 
 #### 2. DFS
+
+Time Complexity: O(V+E)
 
 ```c++
   stack<int> st;
@@ -170,6 +175,12 @@ These collisions must be handled. These are the ways to handle collisions:
 
 #### 4. DJ's Shortest Path
 
+Time Complexity: O(E log(E))
+
+E = <sup>V</sup>C<sub>2</sub>, in worse case, which is V<sup>2</sup>  
+Substituting it in the equation, we get:  
+Time Complexity: O(2E log(V))
+
 ```c++
   int n; // -> Number of nodes in the graph
   vector<vector<int>> g; //Graph as a adjacency List
@@ -204,6 +215,40 @@ These collisions must be handled. These are the ways to handle collisions:
   }
 
   return dis;
+```
+
+#### 5. Topological Sort
+
+Time Complexity: O(V+E)
+
+```c++
+  //Graph is assumed to be taken as an adjacency list
+  //populate the indeg array with the indegree of each node
+  int n; //number of nodes in the graph
+  vector<int> indeg(n); //populate this
+
+  queue<int> q;
+  for(int i = 0; i < indeg.size(); i++) {
+    if(indeg[i] == 0)
+      q.push(i);
+  }
+
+  vector<int> res;
+
+  while(!q.empty()) {
+    int curr = q.front();
+    q.pop();
+
+    res.push_back(curr);
+
+    for(int neighbour: g[curr]) {
+      indeg[neighbour]--;
+      if(indeg[neighbour] == 0)
+        q.push(neighbour);
+    }
+  }
+
+  return res;
 ```
 
 ## Concurrency
