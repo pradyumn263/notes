@@ -603,6 +603,20 @@ Any edge, which when removed, increases the number of connected components in th
 **Articulation Points**  
 Any vertex, which when removed, increases the number of connected components in the graph
 
+#### 12. Eulerian Path
+
+An Eulerian Path, is a path of edges which visits all the edges in a graph exactly once.
+
+**Eulerian Circuit**  
+It is the Eulerian Path which starts and ends on the same vertex.  
+If we know that the graph contains a Eulerian Circuit, then we can start anywhere
+
+**Conditions for Eulerian Path/ Circuit**  
+| | Eulerian Circuit | Eulerian Path |
+| - | --------------- | -------------|
+| Undirected Graph | Every Vertex has an even degree | Either every vertex has even degree or exactly 2 vertices have odd degree |
+| Directed Graph |
+
 ## Concurrency
 
 #### Race Condition
