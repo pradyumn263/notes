@@ -612,10 +612,21 @@ It is the Eulerian Path which starts and ends on the same vertex.
 If we know that the graph contains a Eulerian Circuit, then we can start anywhere
 
 **Conditions for Eulerian Path/ Circuit**  
-| | Eulerian Circuit | Eulerian Path |
-| - | --------------- | -------------|
-| Undirected Graph | Every Vertex has an even degree | Either every vertex has even degree or exactly 2 vertices have odd degree |
-| Directed Graph |
+There should be only 1 connected component
+
+|                      | Eulerian Circuit                              | Eulerian Path                                                                                                                                                     |
+| -------------------- | --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Undirected Graph** | Every Vertex has an even degree               | Either every vertex has even degree or exactly 2 vertices have odd degree                                                                                         |
+| **Directed Graph**   | Every Vertex has equal indegree and outdegree | At most one vertex has (outdegree) - (indegree) = 1 and at most one vertex has (indegree) - (outdegree) = 1 and all other vertices have equal in and out degrees. |
+
+Degree: Number of edges coming to/ going from the vertex.
+
+#### Finding Eulerian Path (Directed Graph)
+
+1. Verify whether an eulerian path exists by using the conditions mentioned in the table above
+2. Find a valid starting node, ie, find | indegree - outdegree | = 1  
+   If all the in/out degrees are equal, then that means this is an eulerian circuit and hence we can start at any node which has a non zero degree.
+3. We need to modify DFS, to make sure it visits all the edges
 
 ## Concurrency
 
